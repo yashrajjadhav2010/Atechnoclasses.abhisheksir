@@ -148,7 +148,7 @@ export default function Director() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-gray-50 rounded-[2rem] p-8 sm:p-12 border border-gray-100 relative mb-12"
+          className="relative mb-12"
         >
           <div className="relative z-10 text-center mb-10">
             <h3 className="text-2xl md:text-3xl font-black heading-display text-emerald-950 mb-3">
@@ -159,57 +159,57 @@ export default function Director() {
             </p>
           </div>
 
-          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="relative z-10 grid grid-cols-2 gap-3 sm:gap-6">
             {batches.map((batch, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col shadow-sm hover:shadow-lg transition-shadow"
               >
                 {/* Banner Section */}
-                <div className={`relative h-48 bg-gradient-to-br ${batch.color} flex items-center justify-center p-6 overflow-hidden`}>
+                <div className={`relative h-32 sm:h-48 bg-gradient-to-br ${batch.color} flex items-center justify-center p-3 sm:p-6 overflow-hidden`}>
                   {batch.popular && (
-                    <div className="absolute top-0 left-0 bg-[#ffb74d] text-black text-xs font-bold px-3 py-1 rounded-br-lg z-10">
+                    <div className="absolute top-0 left-0 bg-[#ffb74d] text-black text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-br-lg z-10">
                       Popular
                     </div>
                   )}
                   {batch.sale && (
-                    <div className="absolute top-4 -right-10 bg-red-600 text-white text-[10px] font-black uppercase tracking-wider px-10 py-1.5 transform rotate-45 z-10 shadow-md">
+                    <div className="absolute top-3 -right-12 sm:-right-10 bg-red-600 text-white text-[8px] sm:text-[10px] font-black uppercase tracking-wider px-10 py-1 sm:py-1.5 transform rotate-45 z-10 shadow-md">
                       SALE
                     </div>
                   )}
-                  <h4 className="text-white text-3xl font-black heading-display uppercase text-center drop-shadow-md z-0 leading-tight">
+                  <h4 className="text-white text-xl sm:text-3xl font-black heading-display uppercase text-center drop-shadow-md z-0 leading-tight">
                     {batch.title}
                   </h4>
                 </div>
 
                 {/* Content Section */}
-                <div className="p-5 flex-1 flex flex-col">
-                  <p className="text-gray-600 text-sm mb-6 line-clamp-2 min-h-[40px]">
+                <div className="p-3 sm:p-5 flex-1 flex flex-col">
+                  <p className="text-gray-600 text-[10px] sm:text-sm mb-3 sm:mb-6 line-clamp-2 min-h-[30px] sm:min-h-[40px]">
                     "{batch.description}"
                   </p>
 
-                  <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center gap-2 text-gray-700 text-sm font-medium">
-                      <Calendar size={16} />
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-1 sm:gap-0">
+                    <div className="flex items-center gap-1 sm:gap-2 text-gray-700 text-[10px] sm:text-sm font-medium">
+                      <Calendar size={14} className="sm:w-4 sm:h-4" />
                       <span>{batch.duration}</span>
                     </div>
-                    <div className="text-xl font-black text-gray-900">
+                    <div className="text-sm sm:text-xl font-black text-gray-900">
                       {batch.price}
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 mt-auto">
-                    <button className="border border-gray-300 text-gray-900 rounded-lg py-2.5 text-sm font-bold hover:bg-gray-50 transition-colors">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mt-auto">
+                    <button className="border border-gray-300 text-gray-900 rounded-lg py-1.5 sm:py-2.5 text-[10px] sm:text-sm font-bold hover:bg-gray-50 transition-colors">
                       View Details
                     </button>
-                    <button className="bg-[#b91c1c] text-white rounded-lg py-2.5 text-sm font-bold hover:bg-red-800 transition-colors flex items-center justify-center gap-1">
-                      Buy Now <ChevronDown size={16} />
+                    <button className="bg-[#b91c1c] text-white rounded-lg py-1.5 sm:py-2.5 text-[10px] sm:text-sm font-bold hover:bg-red-800 transition-colors flex items-center justify-center gap-1">
+                      Buy Now <ChevronDown size={14} className="sm:w-4 sm:h-4" />
                     </button>
                   </div>
                   
-                  <div className="flex justify-between items-center mt-4 text-[10px] font-medium">
+                  <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center mt-3 sm:mt-4 text-[9px] sm:text-[10px] font-medium gap-1 sm:gap-0">
                     <div className="flex items-center gap-1 text-[#b91c1c]">
-                       {batch.popular ? <><ThumbsUp size={12} /> <span>Recommended</span></> : <span></span>}
+                       {batch.popular ? <><ThumbsUp size={10} className="sm:w-3 sm:h-3" /> <span>Recommended</span></> : <span></span>}
                     </div>
                     <span className="text-[#b91c1c]">{index + 2} options available</span>
                   </div>

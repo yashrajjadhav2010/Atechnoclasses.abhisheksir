@@ -130,8 +130,8 @@ export default function Home() {
     }
   };
 
-  const operatorName = localStorage.getItem("operatorName") || "Candidate";
-  const initial = operatorName.substring(0, 2).toUpperCase();
+  const studentName = localStorage.getItem("operatorName") || "Student";
+  const initial = studentName.substring(0, 2).toUpperCase();
 
   const subjects = [
     {
@@ -191,13 +191,13 @@ export default function Home() {
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-[2px] bg-primary animate-pulse" />
                 <span className="text-[11px] font-black uppercase tracking-[0.5em] text-emerald-800/40">
-                  JEE Preparation Dashboard
+                  Official Preparation Platform
                 </span>
               </div>
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-black heading-display leading-[0.9] text-emerald-950 uppercase tracking-tighter">
-                Performance <br />
+                A TECHNO <br />
                 <span className="text-primary italic relative">
-                  Intelligence
+                  CLASSES
                   <motion.span
                     initial={{ width: 0 }}
                     animate={{ width: "100%" }}
@@ -208,9 +208,9 @@ export default function Home() {
             </div>
 
             <p className="text-emerald-800/60 max-w-lg text-base sm:text-lg md:text-xl font-medium leading-relaxed">
-              Welcome to A TECHNO. Your local JEE prep intelligence is
-              active. Tackle chapters, solve doubts, and build your consistency
-              streak to dominate the competitive arena.
+              Welcome to the official digital platform of A TECHNO Classes.
+              Accelerate your JEE preparation with our expert-crafted curriculum,
+              advanced analytics, and strategic guidance to secure your top rank.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 md:gap-5 pt-4 md:pt-6">
@@ -324,11 +324,11 @@ export default function Home() {
                   </div>
                   <div className="flex-1">
                     <p className="text-[10px] font-black uppercase tracking-widest text-white/30">
-                      Candidate Level
+                      Student Level
                     </p>
                     <div className="flex justify-between items-center">
                       <p className="text-sm font-black uppercase tracking-tight">
-                        {operatorName}
+                        {studentName}
                       </p>
                       <p className="text-[10px] font-bold text-primary">
                         {(stats.totalSolved * 10 +
@@ -504,7 +504,7 @@ export default function Home() {
             Core <span className="text-primary not-italic">Capabilities</span>
           </h2>
           <p className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.5em] text-emerald-800/40">
-            The A TECHNO intelligence Engine
+            The A TECHNO Classes Advantage
           </p>
         </div>
 
@@ -522,7 +522,7 @@ export default function Home() {
           />
           <FeatureCard
             icon={BarChart3}
-            title="Radar Telemetry"
+            title="Visual Analytics"
             desc="Real-time visualizations of your accuracy, time-spent, and mastery across all JEE subjects and chapters."
             accent="text-primary"
             bg="bg-white shadow-xl shadow-emerald-950/5"
@@ -530,7 +530,7 @@ export default function Home() {
           />
           <FeatureCard
             icon={ShieldCheck}
-            title="Mission Ready"
+            title="Exam Ready"
             desc="Simulate the actual JEE environment with pressurized timers, standard markings, and performance dashboards."
             accent="text-orange-500"
             bg="bg-white shadow-sm"
@@ -538,8 +538,8 @@ export default function Home() {
           />
           <FeatureCard
             icon={Trophy}
-            title="Global Rank"
-            desc="Compare your telemetry with simulated candidate peers to identify where you stand in the competitive arena."
+            title="Rank Predictor"
+            desc="Compare your performance with peers to identify where you stand in the competitive arena."
             accent="text-red-500"
             bg="bg-white shadow-sm"
             className="min-w-[280px] w-[85vw] md:w-auto snap-center shrink-0 md:shrink"
@@ -563,9 +563,7 @@ export default function Home() {
               </h2>
             </div>
             <p className="text-emerald-800/60 text-lg md:text-xl font-medium leading-relaxed max-w-xl italic">
-              "Practice is the a techno that transforms a candidate into a
-              top-ranker. Our workflow is designed for maximum mission-critical
-              retention."
+              "At A TECHNO Classes, we believe that consistent practice and strategic guidance are the keys to transforming a candidate into a top-ranker."
             </p>
             <div className="flex gap-4">
               <div className="w-12 h-[2px] bg-emerald-100" />
@@ -611,17 +609,17 @@ export default function Home() {
                   <Activity size={20} />
                 </div>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40">
-                  Transmission: Feedback Request
+                  Student Feedback Request
                 </span>
               </div>
               <h2 className="text-3xl md:text-5xl lg:text-6xl font-black heading-display text-white leading-tight uppercase tracking-tighter">
                 Help Us Refine the <br />
-                <span className="text-primary italic">Intelligence Engine</span>
+                <span className="text-primary italic">Learning Platform</span>
               </h2>
               <p className="text-white/60 text-base md:text-lg font-medium leading-relaxed max-w-lg mx-auto lg:mx-0">
-                Your field intelligence is vital. Help us optimize the A Techno
+                Your feedback is vital. Help us optimize the A Techno Classes
                 curriculum for 2026 success. Submit your report directly using
-                the terminal.
+                the form below.
               </p>
 
               </div>
@@ -636,12 +634,12 @@ export default function Home() {
                 >
                   <div>
                     <label className="block text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2">
-                      Operator Name
+                      Student Name
                     </label>
                     <input
                       type="text"
                       className="w-full bg-emerald-900/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                      placeholder="Candidate Name"
+                      placeholder="Student Name"
                       required
                     />
                   </div>
@@ -670,7 +668,7 @@ export default function Home() {
                     type="submit"
                     className="mt-2 w-full px-8 py-4 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all flex justify-center items-center gap-2 group"
                   >
-                    Transmit Report <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                    Submit Feedback <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </form>
               </div>

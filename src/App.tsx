@@ -202,82 +202,18 @@ function BottomNav() {
   );
 }
 
-function NameModal({ onComplete }: { onComplete: () => void }) {
-  const [name, setName] = useState("");
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim()) {
-      localStorage.setItem("operatorName", name.trim());
-      onComplete();
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 backdrop-blur-xl bg-emerald-950/40">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl p-10 space-y-8 relative overflow-hidden"
-      >
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-
-        <div className="text-center space-y-4">
-          <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary">
-            <User size={32} />
-          </div>
-          <h2 className="text-3xl font-black heading-display uppercase tracking-tight text-emerald-950 italic">
-            Identify <span className="text-primary not-italic">Operator</span>
-          </h2>
-          <p className="text-emerald-900/40 font-medium text-sm px-4">
-            Welcome to the command terminal. Please register your operational
-            handle to proceed with the mission.
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-widest text-emerald-900/40 px-2">
-              Operational Name
-            </label>
-            <input
-              autoFocus
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Yashraj Jadhav"
-              className="w-full px-6 py-4 bg-emerald-50 rounded-2xl border-2 border-emerald-50 focus:border-primary focus:bg-white outline-none transition-all font-bold text-emerald-950 placeholder:text-emerald-900/20"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-5 bg-primary text-white font-black text-xs uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
-          >
-            Register Terminal
-          </button>
-        </form>
-      </motion.div>
-    </div>
-  );
-}
-
 function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const isQuizMode = location.pathname.startsWith("/quiz");
   const isSolverMode = location.pathname === "/doubt-solver";
   const isPeriodicTable = location.pathname === "/study/periodic-table";
   const isCleanLayout = isQuizMode || isSolverMode || isPeriodicTable;
-  const [showNameModal, setShowNameModal] = useState(false);
   const [key, setKey] = useState(0); // For forcing re-render of navbar
 
   useEffect(() => {
     try {
       const handleStorage = () => {
         setKey((prev) => prev + 1);
-        const name = localStorage.getItem("operatorName");
-        if (!name) setShowNameModal(true);
-        else setShowNameModal(false);
       };
 
       // Prevent Copying and Context Menu
@@ -292,11 +228,6 @@ function Layout({ children }: { children: React.ReactNode }) {
       window.addEventListener("contextmenu", handleContextMenu);
       window.addEventListener("storage", handleStorage);
 
-      const name = localStorage.getItem("operatorName");
-      if (!name) {
-        setShowNameModal(true);
-      }
-
       return () => {
         window.removeEventListener("copy", handleCopy as any);
         window.removeEventListener("contextmenu", handleContextMenu);
@@ -304,21 +235,12 @@ function Layout({ children }: { children: React.ReactNode }) {
       };
     } catch (e) {
       console.error("Storage access failed:", e);
-      setShowNameModal(true);
     }
   }, []);
-
-  const handleNameComplete = () => {
-    setShowNameModal(false);
-    setKey((prev) => prev + 1); // Refresh layout components that depend on localstorage
-  };
 
   return (
     <div className="min-h-screen bg-[#fbfdfb] text-emerald-900 relative flex flex-col overflow-x-hidden">
       <OwnershipNotice />
-      <AnimatePresence>
-        {showNameModal && <NameModal onComplete={handleNameComplete} />}
-      </AnimatePresence>
 
       {!isCleanLayout && <Navbar key={key} />}
       {!isCleanLayout && <BottomNav />}
