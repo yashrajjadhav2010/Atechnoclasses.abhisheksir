@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import { ArrowLeft, BookOpen, CheckCircle2, Search, Zap } from 'lucide-react';
 import { loadQuizSet } from '../lib/dataService';
 import { QuizSet, Question } from '../types';
+import { LoadingAnimation } from '../components/LoadingAnimation';
 
 export default function QuestionPage() {
   const { subjectId, chapterId, setId, questionId } = useParams<{ subjectId: string; chapterId: string; setId: string; questionId: string }>();
@@ -35,11 +36,7 @@ export default function QuestionPage() {
   }, [subjectId, chapterId, setId, questionId]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-      </div>
-    );
+    return <LoadingAnimation message="Decoding Question Data..." fullScreen={true} />;
   }
 
   if (!question || !quizSet) {

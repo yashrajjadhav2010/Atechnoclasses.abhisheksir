@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { BookOpen, ChevronRight, Hash } from 'lucide-react';
 import { getAllData, loadQuizSet } from '../lib/dataService';
 import { SubjectId, Chapter, QuizSet } from '../types';
+import { LoadingAnimation } from '../components/LoadingAnimation';
 
 interface BrowseData {
   chapter: Chapter;
@@ -43,11 +44,7 @@ export default function BrowseQuestions() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-      </div>
-    );
+    return <LoadingAnimation message="Compiling Question Bank..." />;
   }
 
   return (

@@ -26,6 +26,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { LoadingAnimation } from "./components/LoadingAnimation";
 
 // Lazy loaded pages to improve performance
 const Home = lazy(() => import("./pages/Home"));
@@ -411,6 +412,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
   useEffect(() => {
     try {
       const prefs = JSON.parse(localStorage.getItem("systemPrefs") || "{}");
@@ -420,51 +423,133 @@ export default function App() {
         document.documentElement.classList.remove("dark-mode");
       }
     } catch (e) {}
+
+    // Check if we should show splash
+    const hasSeenSplash = sessionStorage.getItem("hasSeenSplash");
+    if (hasSeenSplash) {
+      setShowSplash(false);
+    }
   }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+    sessionStorage.setItem("hasSeenSplash", "true");
+  };
 
   return (
     <Router>
       <ScrollToTop />
       <div className="mesh-bg" />
       <div className="noise-overlay" />
-      <Layout>
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center min-h-[50vh]">
-              <Loader2 className="w-8 h-8 text-primary animate-spin" />
-            </div>
-          }
-        >
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/subjects" element={<Subjects />} />
-            <Route path="/study" element={<Study />} />
-            <Route path="/study/periodic-table" element={<PeriodicTable />} />
-            <Route path="/study/:materialId" element={<MaterialViewer />} />
-            <Route path="/mock-tests" element={<MockTests />} />
-            <Route path="/subjects/:subjectId" element={<ChapterSelection />} />
-            <Route
-              path="/quiz/:subjectId/:chapterId/:setId"
-              element={<Quiz />}
-            />
-            <Route path="/browse" element={<BrowseQuestions />} />
-            <Route
-              path="/question/:subjectId/:chapterId/:setId/:questionId"
-              element={<QuestionPage />}
-            />
-            <Route path="/result" element={<Result />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/error-book" element={<ErrorBook />} />
-            <Route path="/challenges" element={<Challenges />} />
-            <Route path="/doubt-solver" element={<DoubtSolver />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/documentation" element={<Documentation />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/director" element={<Director />} />
-          </Routes>
-        </Suspense>
-      </Layout>
+      
+      <AnimatePresence mode="wait">
+        {showSplash ? (
+          <motion.div
+            key="splash"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[200] bg-[#fbfdfb] flex flex-col items-center justify-center overflow-hidden"
+          >
+            <div className="absolute inset-0 mesh-bg opacity-50" />
+            
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 flex flex-col items-center"
+            >
+              <motion.div
+                animate={{ 
+                  y: [0, -15, 0],
+                }}
+                transition={{ 
+                  duration: 4, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+                className="mb-8 relative"
+              >
+                <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full scale-150 animate-pulse" />
+                <img
+                  src="/atechono.png"
+                  alt="A TECHNO Logo"
+                  className="w-32 h-32 md:w-48 md:h-48 object-contain relative z-10 drop-shadow-2xl"
+                />
+              </motion.div>
+
+              <div className="overflow-hidden mb-6">
+                <motion.h1
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-4xl md:text-6xl font-black heading-display tracking-tighter text-emerald-950 uppercase italic"
+                >
+                  A <span className="text-primary not-italic">TECHNO</span>
+                </motion.h1>
+              </div>
+              
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: "200px", opacity: 1 }}
+                transition={{ duration: 1, delay: 0.6, ease: "easeInOut" }}
+                className="h-[3px] bg-emerald-100 rounded-full relative overflow-hidden"
+              >
+                <motion.div
+                  className="absolute top-0 left-0 bottom-0 bg-primary"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.5, delay: 0.8, ease: "easeInOut", onComplete: () => setTimeout(handleSplashComplete, 200) }}
+                />
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 1 }}
+                className="mt-6 text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-emerald-900/40"
+              >
+                Initializing Engine
+              </motion.p>
+            </motion.div>
+          </motion.div>
+        ) : (
+          <Layout key="main-layout">
+            <Suspense
+              fallback={<LoadingAnimation message="Compiling Interface..." />}
+            >
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/subjects" element={<Subjects />} />
+                <Route path="/study" element={<Study />} />
+                <Route path="/study/periodic-table" element={<PeriodicTable />} />
+                <Route path="/study/:materialId" element={<MaterialViewer />} />
+                <Route path="/mock-tests" element={<MockTests />} />
+                <Route path="/subjects/:subjectId" element={<ChapterSelection />} />
+                <Route
+                  path="/quiz/:subjectId/:chapterId/:setId"
+                  element={<Quiz />}
+                />
+                <Route path="/browse" element={<BrowseQuestions />} />
+                <Route
+                  path="/question/:subjectId/:chapterId/:setId/:questionId"
+                  element={<QuestionPage />}
+                />
+                <Route path="/result" element={<Result />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/error-book" element={<ErrorBook />} />
+                <Route path="/challenges" element={<Challenges />} />
+                <Route path="/doubt-solver" element={<DoubtSolver />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/documentation" element={<Documentation />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/director" element={<Director />} />
+              </Routes>
+            </Suspense>
+          </Layout>
+        )}
+      </AnimatePresence>
     </Router>
   );
 }

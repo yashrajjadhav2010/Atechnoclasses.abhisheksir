@@ -11,6 +11,7 @@ import { QuizSet } from '../types';
 import { loadQuizSet } from '../lib/dataService';
 import { solveDoubt } from '../services/aiService';
 import { cn } from '../lib/utils';
+import { LoadingAnimation } from '../components/LoadingAnimation';
 
 export default function Quiz() {
   const { subjectId, chapterId, setId } = useParams<{ subjectId: string; chapterId: string; setId: string }>();
@@ -260,12 +261,7 @@ export default function Quiz() {
     handleSaveNext();
   };
 
-  if (loading) return (
-    <div className="flex flex-col items-center justify-center h-screen bg-[#fbfdfb]">
-      <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-      <p className="mt-4 text-primary font-bold uppercase tracking-widest">Loading Test Content...</p>
-    </div>
-  );
+  if (loading) return <LoadingAnimation message="Loading Test Content..." fullScreen={true} />;
 
   if (!quizSet) return <div className="flex items-center justify-center h-screen">MISSION DATA MISSING</div>;
 

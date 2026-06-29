@@ -9,6 +9,7 @@ import {
 import { SubjectId, Chapter } from '../types';
 import { getAllData } from '../lib/dataService';
 import { cn, calculatePredictedRank, formatRank } from '../lib/utils';
+import { LoadingAnimation } from '../components/LoadingAnimation';
 
 const getChapterDesign = (chapterId: string, subjectId: string) => {
   const id = chapterId.toLowerCase();
@@ -70,12 +71,7 @@ export default function ChapterSelection() {
   const rankNumber = calculatePredictedRank(stats);
   const rank = formatRank(rankNumber);
 
-  if (loading) return (
-    <div className="flex flex-col items-center justify-center h-[50vh] gap-4">
-      <div className="w-16 h-16 border-8 border-emerald-100 border-t-emerald-500 rounded-full animate-spin" />
-      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-900/40 animate-pulse">Syncing Mission Data...</span>
-    </div>
-  );
+  if (loading) return <LoadingAnimation message="Syncing Mission Data..." />;
 
   const selectedChapter = selectedChapterId ? chapters.find(c => c.id === selectedChapterId) : null;
 
